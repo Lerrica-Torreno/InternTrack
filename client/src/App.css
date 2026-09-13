@@ -1,0 +1,17 @@
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fa;
+  color: #1f2937;
+}
+
+main {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+}
