@@ -1,30 +1,70 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import Applications from "./pages/Applications";
+import AddApplication from "./pages/AddApplication";
+import EditApplication from "./pages/EditApplication";
+import ViewApplication from "./pages/ViewApplication.jsx";
+import NotFound from "./pages/NotFound";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const [message, setMessage] = useState("Connecting to server...");
-
-  useEffect(() => {
-    fetch("http://localhost:5000/api/health")
-      .then((response) => response.json())
-      .then((data) => {
-        setMessage(data.message);
-      })
-      .catch(() => {
-        setMessage("Unable to connect to server");
-      });
-  }, []);
-
   return (
-    <main>
-      <h1>InternTrack</h1>
+    <Routes>
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-      <p>OJT & Internship Application Tracker</p>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="*" element={<NotFound />} />
 
-      <p>
-        Server status: <strong>{message}</strong>
-      </p>
-    </main>
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/applications"
+        element={
+          <ProtectedRoute>
+            <Applications />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/applications/new"
+        element={
+          <ProtectedRoute>
+            <AddApplication />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/applications/:id/edit"
+        element={
+          <ProtectedRoute>
+            <EditApplication />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/applications/:id"
+        element={
+          <ProtectedRoute>
+            <ViewApplication />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 
